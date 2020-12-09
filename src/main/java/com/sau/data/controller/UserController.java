@@ -16,5 +16,6 @@ public class UserController {
     @RequestMapping(value = "/student_login")
     public CommonReturnType studentLogin() {
 
+        return null;
     }
 }

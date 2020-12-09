@@ -46,11 +46,11 @@
 							<h3 class="legend">账号登录</h3>
 							<div class="input">
 								<span class="fa fa-envelope-o" aria-hidden="true"></span>
-								<input type="email" v-model="logindata.email" placeholder="邮箱" name="email" required />
+								<input type="email" v-model="logindata.email" placeholder="邮箱" id="login_name" name="email" required />
 							</div>
 							<div class="input">
 								<span class="fa fa-key" aria-hidden="true"></span>
-								<input type="password" v-model="logindata.password" placeholder="密码" name="password" required />
+								<input type="password" v-model="logindata.password" placeholder="密码" id="login_password" name="login_password" required />
 							</div>
 							<button type="submit" class="btn submit">学 生 登 录</button>
                             <button type="submit" class="btn submit">教 师 登 录</button>
@@ -66,11 +66,11 @@
 							<h3 class="legend">注册帐户</h3>
 							<div class="input">
 								<span class="fa fa-user-o" aria-hidden="true"></span>
-								<input type="text" v-model="registerdata.name"  placeholder="用户名" name="name" required />
+								<input type="text" v-model="registerdata.name"  placeholder="用户名" id="register_name" name="name" required />
 							</div>
 							<div class="input">
 								<span class="fa fa-key" aria-hidden="true"></span>
-								<input type="password" v-model="registerdata.password"  placeholder="密码" name="password" required />
+								<input type="password" v-model="registerdata.password"  placeholder="密码" id="register_password" name="password" required />
 							</div>
 							<div class="input">
 								<span class="fa fa-key" aria-hidden="true"></span>
@@ -104,26 +104,10 @@
 </body>
 <!-- script   -->
 <script src="https://www.jq22.com/jquery/vue.min.js"></script>
+<script src="js/index.js"></script>
 <!-- JavaScript 代码需要放在尾部（指定的HTML元素之后） -->
 <script>
-new Vue({
-    el:'#mian',
-    data: {
-        nowYear:new Date().getFullYear(),
-        logindata:{
-				email:"123@foxmail.com",
-				password:"admin123"
-			},
-			registerdata:{
-				name:"123@foxmail.com",
-				password:"admin123",
-				confirmPassword:"admin123"
-			},
-			forgetdata:{
-				email:"123@foxmail.com",
-			}
-    }
-});
+
 </script>
 <!-- //script -->
 
