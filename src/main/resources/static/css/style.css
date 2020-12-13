@@ -211,7 +211,7 @@ body {
 .main-bg {
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url("https://picsum.photos/1920/1080");
+    background-image: url("../images/v.jpg");
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -328,7 +328,7 @@ label.icon-left-w3pvt span {
 /* //vertical tabs */
 
 /* form style */
-.sub-main-w3 form {
+.sub-main-w3 fieldset {
     background: #ffff;
     padding: 2em;
 }
@@ -593,7 +593,7 @@ a.bottom-text-w3ls {
         min-height: 220px;
     }
 
-    .sub-main-w3 form {
+    .sub-main-w3 fieldset {
         padding: 1.5em;
     }
 
@@ -691,5 +691,7 @@ a.bottom-text-w3ls {
         min-width: 270px;
     }
 }
+
+
 
 /* //responsive */

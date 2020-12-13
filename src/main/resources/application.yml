@@ -1,7 +1,7 @@
 spring:
   datasource:
-    name: miaosha
-    url: jdbc:mysql://localhost:3306/miaosha
+    name: research_data
+    url: jdbc:mysql://localhost:3306/research_data
     username: root
     password: wangshuai
     type: com.alibaba.druid.pool.DruidDataSource
@@ -13,3 +13,8 @@ mybatis:
 logging:
   level:
     root: info
+server:
+  servlet:
+    session:
+      timeout: 3600
+

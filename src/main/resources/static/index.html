@@ -1,114 +1,59 @@
-<!DOCTYPE HTML>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<title>登录</title>
-	<!-- Meta tag Keywords -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta charset="UTF-8" />
-	<meta name="keywords" content="Triple Forms Responsive Widget,Login form widgets, Sign up Web forms , Login signup Responsive web form,Flat Pricing table,Flat Drop downs,Registration Forms,News letter Forms,Elements" />
-	<script>
-		addEventListener("load", function () {
-			setTimeout(hideURLbar, 0);
-		}, false);
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-		function hideURLbar() {
-			window.scrollTo(0, 1);
-		}
-	</script>
-	<!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="baipiao">
+    <meta name="modify_author" content="vvshuai and Bootstrap contributors">
+    <title>登录页</title>
 
-	<!-- css files -->
-	<link rel="stylesheet" href="../css/style.css" type="text/css" media="all" />
-	<!-- Style-CSS -->
-	<link href="../css/font-awesome.min.css" rel="stylesheet">
-	<!-- Font-Awesome-Icons-CSS -->
-	<!-- //css files -->
+    <link rel="canonical" href="https://v4.bootcss.com/docs/examples/sign-in/">
 
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="css/signin.css" rel="stylesheet">
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/index.js"></script>
 </head>
 
-<body style="overflow-y:hidden">
-	<div class="main-bg" id="mian">
-		<!-- title -->
-		<h1>研究室研究资料管理系统</h1>
-		<!-- //title -->
-		<div class="sub-main-w3">
-			<div class="image-style">
-
-			</div>
-			<!-- vertical tabs -->
-			<div class="vertical-tab">
-				<div id="section1" class="section-w3ls">
-					<input type="radio" name="sections" id="option1" checked>
-					<label for="option1" class="icon-left-w3pvt"><span class="fa fa-user-circle" aria-hidden="true"></span>登录</label>
-					<article>
-                        <form>
-							<h3 class="legend">账号登录</h3>
-							<div class="input">
-								<span class="fa fa-envelope-o" aria-hidden="true"></span>
-								<input type="email" v-model="logindata.email" placeholder="邮箱" id="login_name" name="email" required />
-							</div>
-							<div class="input">
-								<span class="fa fa-key" aria-hidden="true"></span>
-								<input type="password" v-model="logindata.password" placeholder="密码" id="login_password" name="login_password" required />
-							</div>
-							<button type="submit" class="btn submit">学 生 登 录</button>
-                            <button type="submit" class="btn submit">教 师 登 录</button>
-							<a href="#" class="bottom-text-w3ls">忘记密码?</a>
-                        </form>
-					</article>
-				</div>
-				<div id="section2" class="section-w3ls">
-					<input type="radio" name="sections" id="option2">
-					<label for="option2" class="icon-left-w3pvt"><span class="fa fa-pencil-square" aria-hidden="true"></span>注册</label>
-					<article>
-						<form>
-							<h3 class="legend">注册帐户</h3>
-							<div class="input">
-								<span class="fa fa-user-o" aria-hidden="true"></span>
-								<input type="text" v-model="registerdata.name"  placeholder="用户名" id="register_name" name="name" required />
-							</div>
-							<div class="input">
-								<span class="fa fa-key" aria-hidden="true"></span>
-								<input type="password" v-model="registerdata.password"  placeholder="密码" id="register_password" name="password" required />
-							</div>
-							<div class="input">
-								<span class="fa fa-key" aria-hidden="true"></span>
-								<input type="password" v-model="registerdata.confirmPassword"  placeholder="确认密码" name="confirmPassword" required />
-							</div>
-							<button type="submit" class="btn submit">注 册</button>
-						</form>
-					</article>
-				</div>
-				<div id="section3" class="section-w3ls">
-					<input type="radio" name="sections" id="option3">
-					<label for="option3" class="icon-left-w3pvt"><span class="fa fa-lock" aria-hidden="true"></span>忘记密码?</label>
-					<article>
-                        <form>
-    						<h3 class="legend last">重置密码</h3>
-    						<p class="para-style">请在下面输入您的学号，我们将重置为初始密码</p>
-    						<div class="input">
-    							<span class="fa fa-envelope-o" aria-hidden="true"></span>
-    							<input type="email" v-model="forgetdata.email" placeholder="学号" name="email" required />
-    						</div>
-    						<button type="submit" class="btn submit last-btn">提交</button>
-                        </form>
-					</article>
-				</div>
-			</div>
-			<!-- //vertical tabs -->
-			<div class="clear"></div>
-		</div>
-	</div>
+<body class="text-center">
+<fieldset class="form-signin">
+    <img class="mb-4" src="images/school.jpg" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">研究室资料管理系统</h1>
+    <label for="login_number" class="sr-only">学号</label>
+    <input type="email" id="login_number" class="form-control" placeholder="学号或教师号" maxlength="20">
+    <label for="login_password" class="sr-only">密码</label>
+    <input type="password" id="login_password" class="form-control" placeholder="密码" maxlength="20">
+    <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" value="remember-me"> 记住密码
+        </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" id="student_login">学生登录</button>
+    <br>
+    <button class="btn btn-lg btn-success btn-block" type="submit" id="teacher_login">教师登录</button>
+    <p class="mt-5 mb-3 text-muted">© 2020 版权所有:white piao</p>
+</fieldset>
 
 </body>
-<!-- script   -->
-<script src="https://www.jq22.com/jquery/vue.min.js"></script>
-<script src="js/index.js"></script>
-<!-- JavaScript 代码需要放在尾部（指定的HTML元素之后） -->
-<script>
-
-</script>
-<!-- //script -->
 
 </html>

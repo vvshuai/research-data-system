@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>研究室资料管理系统</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#" style="font-size:large;">研究室资料管理系统</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">主页 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">实验管理</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    数据管理
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">周报上传</a>
+                    <a class="dropdown-item" href="#">阶段提交</a>
+                    <a class="dropdown-item" href="#">学习活动</a>
+                </div>
+            <li class="nav-item">
+                <a class="nav-link" href="#">周报记录</a>
+            </li>
+            </li>
+
+        </ul>
+        <!-- <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+        </form> -->
+        <span style="color: white" id="userName"></span>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item">
+                <a class="nav-link" href="#">退出登录</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+
+    <div class="text-center" style="margin-bottom: 30px;margin-top: 10px;">
+        <img src="../images/school.jpg" alt="sau" style="height: 250px;">
+    </div>
+
+    <div class="jumbotron shadow">
+        <h2 class="display-4 text-center">研究室资料管理系统</h2>
+        <p class="lead text-center" >
+            欢迎来到研究室资料管理系统，帮助研究生管理数据
+        </p>
+        <hr class="my-4">
+        <p class="text-center">
+            1.学生上传与实验相关的实验数据功能。
+        </p>
+        <p class="text-center">
+            2.学生在实验各个阶段会完成不同功能的代码，系统提供上传保存这些实验代码的功能，可供同组内其他同学参考学习。
+        </p>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+    //当页面一加载时就向后台发送post请求
+    $(function(){
+        $.post("http://localhost:8080/user/getSession",function(obj){
+            $("#userName").html(obj.studentName+"欢迎你");
+        },"json")
+    });
+
+</script>
+</html>

@@ -13,14 +13,33 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommonReturnType<T> {
+public class CommonReturnType {
 
-    private Integer code;
+    private String code;
     private String message;
-    private T data;
+    private Object data;
 
-    public CommonReturnType(Integer code, String message){
+    public CommonReturnType(String code, String message){
         this.code = code;
         this.message = message;
+    }
+
+    public static CommonReturnType success(Object data) {
+        CommonReturnType commonReturnType = new CommonReturnType();
+
+        commonReturnType.setCode("200");
+        commonReturnType.setMessage("成功");
+        commonReturnType.setData(data);
+
+        return commonReturnType;
+    }
+
+    public static CommonReturnType error(String code, String message) {
+        CommonReturnType commonReturnType = new CommonReturnType();
+
+        commonReturnType.setCode(code);
+        commonReturnType.setMessage(message);
+
+        return commonReturnType;
     }
 }

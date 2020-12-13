@@ -17,7 +17,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-
+        registry.addInterceptor(new LoginInterceptor())
+                .addPathPatterns("/**")
+                .excludePathPatterns("/", "", "/index.html")
+                .excludePathPatterns("/user/student_login", "/user/teacher_login")
+                .excludePathPatterns("/css/**", "/images/**", "/js/**");
     }
 
     /**
@@ -29,4 +33,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/").setViewName("forward:/index.html");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
     }
+
+
 }
