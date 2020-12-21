@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>研究室资料管理系统</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <script src="../js/bootstrap-table.min.js"></script>
+    <script src="../js/common.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap-table.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#" style="font-size:large;">研究室资料管理系统</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="system.html">主页</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="system-code.html">代码数据</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="system-paper.html">论文讲解</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="system-study.html">学习进程</a>
+                </li>
+                <li>
+                    <a class="nav-link" href="system-other.html">其他文档</a>
+                </li>
+            </ul>
+            <span style="color: white" id="userName"></span>
+            <ul class="navbar-nav px-3">
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:logout()">退出登录</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br>
+    <div class="row">
+        <div class="col-2 offset-md-1">
+            <div class="list-group" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action active" id="list-latest-list" data-toggle="list"
+                    href="#list-latest" role="tab" aria-controls="latest">最近提交记录</a>
+                <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list"
+                    href="#list-home" role="tab" aria-controls="home">代码提交</a>
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="list-latest" role="tabpanel"
+                    aria-labelledby="list-latest-list">
+                    <div class="row">
+                        <div class="col-3">
+                            <h3 class="mb-3">最近提交记录</h3>
+                        </div>
+                        <div class="col-8 offset-md-1">
+                            <fieldset class="form-inline my-2 my-lg-0">
+                                <select class="form-control mr-sm-2" id="sel1">
+                                    <option>按代码名称搜索</option>
+                                    <option>按上传者姓名搜索</option>
+                                    <option>按标签搜索</option>
+                                </select>
+                                <input class="form-control mr-sm-2" type="search" placeholder="Search"
+                                    aria-label="Search">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <table id="table" data-toggle="table" data-detail-view="true"
+                                data-detail-formatter="detailFormatter">
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane fade" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+                    <h3 class="mb-3">代码提交</h3>
+                    <div class="row">
+                        <div class="col-9">
+                            <h4>代码名称</h4>
+                            <fieldset>
+                                <input class="form-control" style="width: 550.95px;">
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-6">
+                            <h4>代码简介</h4>
+                            <fieldset>
+                                <textarea class="form-control" style="height: 300px;"></textarea>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-3">
+                            <div class="input-group" id="tagGroup">
+                                <h4>代码标签</h4>
+                                <button class="btn btn-info btn-sm mx-3" type="button" data-toggle="tooltip" title="新增"
+                                    id="addCenterIpGrpBtn" onclick="addTag(this)"><span
+                                        class="glyphicon glyphicon-plus"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <fieldset>
+                        <div class="mb-3">
+                            <div class="form-group">
+                                <label for="kaiti-file">代码文件提交</label>
+                                <input type="file" class="form-control-file" id="kaiti-file">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-group">
+                                <label for="readme-file">readme文件提交</label>
+                                <input type="file" class="form-control-file" id="readme-file">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary">提交</button>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+<script>
+    //设置需要显示的列
+    var columns = [{
+        field: "Id",
+        title: '代码序号'
+    }, {
+        field: 'CodeName',
+        title: '代码名称'
+    }, {
+        field: 'UserName',
+        title: '上传人'
+    }, {
+        field: 'tag',
+        title: '标签'
+    }, {
+        field: 'operate',
+        title: '操作',
+        align: 'center',
+        valign: 'middle',
+        width: 200,
+        events: {
+            'click #delete': function (e, value, row, index) {
+                deleteInfo(row.Id);
+            }
+        },
+        formatter: function (value, row, index) {
+            var result = "";
+            result +=
+                '<button id="delete" class="btn btn-danger btn-sm" style="margin-left:10px;">删除</button>';
+            return result;
+        }
+    }];
+
+    //需要显示的数据
+    var data = [{
+        Id: 1000,
+        CodeName: '香蕉香蕉香蕉',
+        tag: '数据库;最短路;',
+        UserName: 'vvs1'
+    }, {
+        Id: 1002,
+        CodeName: '苹果',
+        tag: '数据库;最短路;',
+        UserName: 'vvs2'
+    }, {
+        Id: 1003,
+        CodeName: '苹果',
+        tag: '数据库;最短路;',
+        UserName: 'vvs3'
+    }, {
+        Id: 1004,
+        CodeName: '苹果',
+        tag: '数据库;最短路;',
+        UserName: 'vvs4'
+    }];
+    //bootstrap table初始化数据
+    $('#table').bootstrapTable({
+        clickToSelect: true,
+        detailViewByClick: true, //4,隐藏图标列
+        columns: columns,
+        data: data
+    });
+
+    function detailFormatter(index, row) {
+        var html = []
+        $.each(row, function (key, value) {
+            if (key != '0') {
+                html.push('<p><b>' + key + ':</b> ' + value + '</p>')
+            }
+        });
+        return html.join('')
+    }
+    // function deleteInfo(id) {
+    //         $.ajax({
+    //             type: 'post',
+    //             url: 'ashx/DeleteHandler.ashx',
+    //             dataType: 'json',
+    //             data: {
+    //                 id: id
+    //             },
+    //             success: function (data) {
+    //                 if (data == 'Yes') {
+    //                     $('#table').bootstrapTable('refresh');
+    //                 }
+    //                 else {
+    //                     alert('删除失败');
+    //                 }
+    //             }
+    //         })
+    //     }
+</script>
+<script>
+    function addTag(obj) {
+        html = '<div class="input-group tage my-1">' +
+            '<label class="input-group-addon">tag：</label>' +
+            '<input type="text" class="form-control" id="tagInput">' +
+            '<span class="input-group-btn">' +
+            '<button class="btn btn-info btn-sm mx-2" type="button" data-toggle="tooltip" title="删除" id="deltag"><span class="glyphicon glyphicon-minus"></span></button>' +
+            '</span>' +
+            '</div>'
+        obj.insertAdjacentHTML('afterEnd', html)
+    }
+    $(document).on('click', '#deltag', function () {
+        var el = this.parentNode.parentNode;
+        var centerIp = $(this).parent().parent().find('#tagInput').val();
+        el.parentNode.removeChild(el);
+    })
+</script>
+
+</html>
