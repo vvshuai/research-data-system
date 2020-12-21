@@ -40,10 +40,19 @@
          enableUpdateByExample="false" enableDeleteByExample="false"
          enableSelectByExample="false" selectByExampleQueryId="false"></table>
          -->
-        <table tableName="student_info" domainObjectName="StudentDO" enableCountByExample="false"
+        <table tableName="user_info" domainObjectName="UserDO" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="teacher_info" domainObjectName="TeacherDO" enableCountByExample="false"
+        <table tableName="code" domainObjectName="CodeDO" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="paper_info" domainObjectName="PaperDO" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="other_file" domainObjectName="OtherFileDO" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="study_file" domainObjectName="StudyDO" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false"></table>
     </context>

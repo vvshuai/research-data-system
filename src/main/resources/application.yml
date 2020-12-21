@@ -6,6 +6,11 @@ spring:
     password: wangshuai
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+
 
 mybatis:
   mapper-locations: classpath:mappers/*.xml
@@ -17,4 +22,6 @@ server:
   servlet:
     session:
       timeout: 3600
+  tomcat:
+    max-swallow-size: 400MB
 

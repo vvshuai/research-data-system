@@ -2,9 +2,11 @@ package com.sau.data.exception;
 
 import com.sau.data.constant.CommonEnum;
 import com.sau.data.response.CommonReturnType;
+import org.apache.tomcat.util.http.fileupload.FileUploadBase;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,10 +32,11 @@ public class GlobalExceptionHandler {
      * @param e
      * @return
      */
-    @ExceptionHandler(value = Exception.class)
+    @ExceptionHandler(value = MaxUploadSizeExceededException.class)
     @ResponseBody
-    public CommonReturnType exceptionHandler(HttpServletRequest req, Exception e){
+    public CommonReturnType exceptionHandler(HttpServletRequest req, MaxUploadSizeExceededException e){
 
-        return CommonReturnType.error("-1", CommonEnum.INTERNAL_SERVER_ERROR.getMessage());
+        return CommonReturnType.error("-1", "文件过大!");
     }
+
 }

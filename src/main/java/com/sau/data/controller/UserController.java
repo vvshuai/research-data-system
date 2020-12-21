@@ -1,14 +1,16 @@
 package com.sau.data.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sau.data.entity.StudentDO;
-import com.sau.data.exception.SystemException;
+import com.sau.data.entity.UserDO;
 import com.sau.data.response.CommonReturnType;
+import com.sau.data.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 /**
@@ -18,44 +20,41 @@ import java.util.Map;
  * @Modified By:
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping(value = "/user")
 public class UserController {
 
-    @RequestMapping(value = "/student_login", method = RequestMethod.POST)
-    public CommonReturnType studentLogin(@RequestBody Map<String, Object> map, HttpServletRequest request) {
+    @Autowired
+    UserService userService;
 
-        CommonReturnType commonReturnType = new CommonReturnType();
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public CommonReturnType studentLogin(@RequestBody Map<String, Object> map, HttpServletRequest request) throws NoSuchAlgorithmException {
 
-        String loginNumber = (String) map.get("loginNumber");
+        Long loginNumber = Long.valueOf(String.valueOf(map.get("loginNumber")));
         String password = (String) map.get("password");
-        StudentDO studentDO = new StudentDO();
-        studentDO.setStudentId(1);
-        studentDO.setStudentName("vvshuai");
-        studentDO.setPassword("123456");
 
-        if(!loginNumber.equals("1")) {
-            return commonReturnType.error("300", "用户名或密码不正确");
-        }
-        request.getSession().setAttribute("student", studentDO);
+        UserDO userDO = userService.selectByNumber(loginNumber, password);
 
-        System.out.println("test");
-        return CommonReturnType.success(studentDO);
+        request.getSession().setAttribute("user", userDO);
+
+        return CommonReturnType.success(null);
     }
 
-    @RequestMapping(value = "/teacher_login")
-    public CommonReturnType teacherLogin(@RequestBody Map<String, Object> map) {
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public CommonReturnType studentLogout(HttpServletRequest request) {
+        request.getSession().removeAttribute("user");
 
-        return null;
+        return CommonReturnType.success(null);
     }
 
-    @RequestMapping(value = "/getSession")
+    @RequestMapping(value = "/getSession", method = RequestMethod.POST)
     public void getSession(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        StudentDO user = (StudentDO) request.getSession().getAttribute("student");
-        System.out.println(request.getSession().getMaxInactiveInterval());
-        if(user != null) {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.writeValue(response.getOutputStream(), user);
+        UserDO userDO = (UserDO) request.getSession().getAttribute("user");
+
+        ObjectMapper mapper = new ObjectMapper();
+        if(userDO != null) {
+            mapper.writeValue(response.getOutputStream(), userDO);
         }
     }
+
 }

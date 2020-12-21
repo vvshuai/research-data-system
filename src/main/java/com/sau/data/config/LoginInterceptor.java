@@ -1,13 +1,11 @@
 package com.sau.data.config;
 
-import com.sau.data.entity.StudentDO;
-import com.sau.data.entity.TeacherDO;
+import com.sau.data.entity.UserDO;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
 
 /**
  * @Author: vvshuai
@@ -21,10 +19,9 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
 
-        StudentDO studentDO = (StudentDO) request.getSession().getAttribute("student");
-        TeacherDO teacherDO = (TeacherDO) request.getSession().getAttribute("teacher");
+        UserDO studentDO = (UserDO) request.getSession().getAttribute("user");
 
-        if(studentDO == null && teacherDO == null) {
+        if(studentDO == null) {
             response.sendRedirect("/");
             return false;
         }
