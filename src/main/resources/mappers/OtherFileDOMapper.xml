@@ -35,9 +35,24 @@
   </select>
   <select id="getTotal" parameterType="java.lang.Integer" resultType="Integer">
     select count(1) FROM other_file
+    where 1 = 1
+    <if test="fileName != null">
+      AND file_name LIKE CONCAT('%', #{fileName, jdbcType=VARCHAR}, '%')
+    </if>
+    <if test="userName != null">
+      AND user_name LIKE CONCAT('%', #{userName, jdbcType=VARCHAR}, '%')
+    </if>
   </select>
   <select id="selectFileListPage" parameterType="com.sau.data.form.OtherFileForm" resultMap="BaseResultMap">
     select * from other_file
+    where 1 = 1
+    <if test="fileName != null">
+      AND file_name LIKE CONCAT('%', #{fileName, jdbcType=VARCHAR}, '%')
+    </if>
+    <if test="userName != null">
+      AND user_name LIKE CONCAT('%', #{userName, jdbcType=VARCHAR}, '%')
+    </if>
+    order by create_time desc
     limit #{offset},#{limit}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

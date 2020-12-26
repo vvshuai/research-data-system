@@ -74,16 +74,16 @@
                     aria-labelledby="list-latest-list">
                     <div class="row">
                         <div class="col-3">
-                            <h3 class="mb-3">最近提交记录</h3>
+                            <h3 class="mb-3">提交记录</h3>
                         </div>
                         <div class="col-8 offset-md-1">
                             <fieldset class="form-inline my-2 my-lg-0">
                                 <select class="form-control mr-sm-2" id="sel1">
-                                    <option>按文档搜索</option>
-                                    <option>按名字搜索</option>
+                                    <option value="fileName">按文档搜索</option>
+                                    <option value="userName">按名字搜索</option>
                                 </select>
-                                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+                                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchText">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="search()">搜索</button>
                             </fieldset>
                         </div>
                     </div>
@@ -131,85 +131,102 @@
     </div>
 </body>
 <script>
-    // 设置需要显示的列
-    $('#table').bootstrapTable({
-        method : 'get',
-        url : 'http://localhost:8080/other/queryFileList',
-        dataType: 'json',
-        dataField: 'rows',
-        pagination : true,
-        pageNumber : 1,
-        pageSize: 1,   //每页的记录行数（*）
-        pageList: [1, 2, 5, 10],
-        paginationPreText: '上一页',
-        paginationNextText: '下一页',
-        sidePagination: "server",
-        queryParamsType: 'limit',
-        sortOrder: "asc",
-        queryParams: function (params) {
-            return {
-                offset: params.offset,
-                limit: params.limit
-            }
-        },
-        responseHandler: function (res) {
-            console.log(res);
-            return {
-                "total": res.data.total,
-                "rows": res.data.rows
-            };
-        },
-        columns : [{
-            field: 'SerialNumber',
-            title: '序号',
-            formatter: function (value, row, index) {
-                return index+1;
-            }
-        }, {
-            field: 'fileName',
-            title: '文件名称',
-            cellStyle:{
-                css:{
-                    "overflow": "hidden",
-                    "text-overflow": "ellipsis",
-                    "white-space": "nowrap"
-                }
-            }
-        }, {
-            field: 'userName',
-            title: '上传人'
-        }, {
-            field: 'createTime',
-            title: '上传时间'
-        }, {
-            field: 'operate',
-            title: '操作',
-            align: 'center',
-            valign: 'middle',
-            width: 200,
-            events: {
-                'click #delete': function (e, value, row, index) {
-                    deleteInfo(row.id);
-                },
-                'click #download': function (e, value, row, index) {
-                    downloadInfo(row.id);
-                }
-            },
-            formatter: function (value, row, index) {
-                var result = "";
-                result +=
-                    '<button id="download" class="btn btn-success btn-sm" style="margin-left:10px;">下载</button>' +
-                    '<button id="delete" class="btn btn-danger btn-sm" style="margin-left:10px;">删除</button>';
-                return result;
-            }
-        }],
-        onLoadSuccess: function () {
-
-        },
-        onLoadError: function () {
-            alert("数据加载失败！");
-        }
+    $(function(){
+        initTable();
     });
+    function search() {
+        initTable();
+    }
+    function initTable(){
+        $('#table').bootstrapTable('destroy');
+        $('#table').bootstrapTable({
+            method : 'post',
+            contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+            url : 'http://localhost:8080/other/queryFileList',
+            dataType: 'json',
+            dataField: 'rows',
+            pagination : true,
+            pageNumber : 1,
+            pageSize: 2,   //每页的记录行数（*）
+            pageList: [2, 4, 6],
+            paginationPreText: '上一页',
+            paginationNextText: '下一页',
+            sidePagination: "server",
+            queryParamsType: 'limit',
+            queryParams: function (params) {
+                var obj = {};
+                obj['offset'] = params.offset;
+                obj['limit'] = params.limit;
+
+                if($('#searchText').val() !== ""){
+                    let options = $("#sel1 option:selected");　　　　//获取选中项
+                    let day = options.val();　　　　　　　　　　　　　　//获取选中项的值
+                    let value = $('#searchText').val();
+                    obj[day] = value;
+                }
+                console.log(obj);
+                var temp = JSON.stringify(obj);
+                return JSON.parse(temp);
+            },
+            responseHandler: function (res) {
+                console.log(res);
+                return {
+                    "total": res.data.total,
+                    "rows": res.data.rows
+                };
+            },
+            columns : [{
+                field: 'SerialNumber',
+                title: '序号',
+                formatter: function (value, row, index) {
+                    return index+1;
+                }
+            }, {
+                field: 'fileName',
+                title: '文件名称',
+                cellStyle:{
+                    css:{
+                        "overflow": "hidden",
+                        "text-overflow": "ellipsis",
+                        "white-space": "nowrap"
+                    }
+                }
+            }, {
+                field: 'userName',
+                title: '上传人'
+            }, {
+                field: 'createTime',
+                title: '上传时间'
+            }, {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                valign: 'middle',
+                width: 200,
+                events: {
+                    'click #delete': function (e, value, row, index) {
+                        deleteInfo(row.id);
+                    },
+                    'click #download': function (e, value, row, index) {
+                        downloadInfo(row.id);
+                    }
+                },
+                formatter: function (value, row, index) {
+                    var result = "";
+                    result +=
+                        '<button id="download" class="btn btn-success btn-sm" style="margin-left:10px;">下载</button>' +
+                        '<button id="delete" class="btn btn-danger btn-sm" style="margin-left:10px;">删除</button>';
+                    return result;
+                }
+            }],
+            onLoadSuccess: function () {
+
+            },
+            onLoadError: function () {
+                alert("数据加载失败！");
+            }
+        });
+    }
     function detailFormatter(index, row) {
         var html = []
         $.each(row, function (key, value) {
@@ -228,22 +245,25 @@
         return html.join('')
     }
     function deleteInfo(id) {
-        $.ajax({
-            type: 'post',
-            url: 'ashx/DeleteHandler.ashx',
-            dataType: 'json',
-            data: {
-                id: id
-            },
-            success: function (data) {
-                if (data == 'Yes') {
-                    $('#table').bootstrapTable('refresh');
+        if(confirm("确定删除吗")){
+            $.ajax({
+                type: 'post',
+                url: 'http://localhost:8080/other/delete',
+                dataType: 'json',
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    if (data.code == '200') {
+                        $('#table').bootstrapTable('refresh');
+                        alert('删除成功');
+                    }
+                    else {
+                        alert(data.message);
+                    }
                 }
-                else {
-                    alert('删除失败');
-                }
-            }
-        })
+            })
+        }
     }
     function downloadInfo(id) {
         let $eleForm = $("<form method='post'></form>");

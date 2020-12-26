@@ -1,7 +1,10 @@
 package com.sau.data.dao;
 
 import com.sau.data.entity.StudyDO;
+import com.sau.data.form.StudyFileForm;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface StudyDOMapper {
@@ -52,4 +55,16 @@ public interface StudyDOMapper {
      * @mbg.generated Fri Dec 18 21:56:50 CST 2020
      */
     int updateByPrimaryKey(StudyDO record);
+
+    /**
+     * @Description: 获取所有数量
+     * @return: int
+     */
+    int getTotal(StudyFileForm studyFileForm);
+
+    /**
+     * @Description: 获取所有文件
+     * @return:
+     */
+    List<StudyDO>  selectFileListPage(StudyFileForm studyFileForm);
 }

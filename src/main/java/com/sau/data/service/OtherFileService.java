@@ -21,4 +21,6 @@ public interface OtherFileService {
     List<OtherFileForm> selectFileListPage(OtherFileForm otherFileForm);
 
     OtherFileDO selectFile(Integer id);
+
+    boolean deleteFile(Integer id);
 }

@@ -8,7 +8,7 @@ import java.security.MessageDigest;
  * @Date: Created in 22:58 2020/12/18
  * @Modified By:
  */
-public class MD5Util {
+public class MD5Utils {
 
     public static String getMd5_16(String string) {
         return encrypt32(string).substring(8, 24);

@@ -3,6 +3,7 @@ $(function(){
     $.post("http://localhost:8080/user/getSession",function(obj){
         $("#userName").html(obj.userName+"欢迎你");
     },"json")
+    console.log(1);
 });
 
 function logout() {

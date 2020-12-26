@@ -5,13 +5,15 @@
     <meta charset="utf-8">
     <title>研究室资料管理系统</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <script src="../js/jquery-1.11.0.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-table.min.css">
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
     <script src="../js/bootstrap-table.min.js"></script>
     <script src="../js/common.js"></script>
-    <link rel="stylesheet" href="../css/bootstrap-table.min.css">
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/code.js"></script>
     <style>
         body {
             background-color: #f5f5f5;
@@ -75,13 +77,13 @@
                         <div class="col-8 offset-md-1">
                             <fieldset class="form-inline my-2 my-lg-0">
                                 <select class="form-control mr-sm-2" id="sel1">
-                                    <option>按代码名称搜索</option>
-                                    <option>按上传者姓名搜索</option>
-                                    <option>按标签搜索</option>
+                                    <option value="codeName">按代码名称搜索</option>
+                                    <option value="userName">按上传者姓名搜索</option>
+                                    <option value="codeLabel">按标签搜索</option>
                                 </select>
                                 <input class="form-control mr-sm-2" type="search" placeholder="Search"
-                                    aria-label="Search">
-                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+                                    aria-label="Search" id="searchText">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="search()">搜索</button>
                             </fieldset>
                         </div>
                     </div>
@@ -100,7 +102,7 @@
                         <div class="col-9">
                             <h4>代码名称</h4>
                             <fieldset>
-                                <input class="form-control" style="width: 550.95px;">
+                                <input class="form-control" style="width: 550.95px;" id="code_name">
                             </fieldset>
                         </div>
                     </div>
@@ -108,25 +110,23 @@
                         <div class="col-6">
                             <h4>代码简介</h4>
                             <fieldset>
-                                <textarea class="form-control" style="height: 300px;"></textarea>
+                                <textarea class="form-control" style="height: 300px;" id="code_description"></textarea>
                             </fieldset>
                         </div>
                     </div>
                     <div class="row my-3">
-                        <div class="col-3">
+                        <div class="col-7">
+                            <h4>代码标签</h4>
                             <div class="input-group" id="tagGroup">
-                                <h4>代码标签</h4>
-                                <button class="btn btn-info btn-sm mx-3" type="button" data-toggle="tooltip" title="新增"
-                                    id="addCenterIpGrpBtn" onclick="addTag(this)"><span
-                                        class="glyphicon glyphicon-plus"></span></button>
+
                             </div>
                         </div>
                     </div>
                     <fieldset>
                         <div class="mb-3">
                             <div class="form-group">
-                                <label for="kaiti-file">代码文件提交</label>
-                                <input type="file" class="form-control-file" id="kaiti-file">
+                                <label for="code-file">代码文件提交</label>
+                                <input type="file" class="form-control-file" id="code-file">
                             </div>
                         </div>
                         <div class="mb-3">
@@ -136,7 +136,7 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="submit" class="btn btn-primary" onclick="code_submit()">提交</button>
                         </div>
                     </fieldset>
                 </div>
@@ -146,112 +146,155 @@
     </div>
 </body>
 <script>
-    //设置需要显示的列
-    var columns = [{
-        field: "Id",
-        title: '代码序号'
-    }, {
-        field: 'CodeName',
-        title: '代码名称'
-    }, {
-        field: 'UserName',
-        title: '上传人'
-    }, {
-        field: 'tag',
-        title: '标签'
-    }, {
-        field: 'operate',
-        title: '操作',
-        align: 'center',
-        valign: 'middle',
-        width: 200,
-        events: {
-            'click #delete': function (e, value, row, index) {
-                deleteInfo(row.Id);
-            }
-        },
-        formatter: function (value, row, index) {
-            var result = "";
-            result +=
-                '<button id="delete" class="btn btn-danger btn-sm" style="margin-left:10px;">删除</button>';
-            return result;
-        }
-    }];
-
-    //需要显示的数据
-    var data = [{
-        Id: 1000,
-        CodeName: '香蕉香蕉香蕉',
-        tag: '数据库;最短路;',
-        UserName: 'vvs1'
-    }, {
-        Id: 1002,
-        CodeName: '苹果',
-        tag: '数据库;最短路;',
-        UserName: 'vvs2'
-    }, {
-        Id: 1003,
-        CodeName: '苹果',
-        tag: '数据库;最短路;',
-        UserName: 'vvs3'
-    }, {
-        Id: 1004,
-        CodeName: '苹果',
-        tag: '数据库;最短路;',
-        UserName: 'vvs4'
-    }];
-    //bootstrap table初始化数据
-    $('#table').bootstrapTable({
-        clickToSelect: true,
-        detailViewByClick: true, //4,隐藏图标列
-        columns: columns,
-        data: data
+    $(function(){
+        initTable();
     });
+    function search() {
+        initTable();
+    }
+    function initTable() {
+        $('#table').bootstrapTable('destroy');
+        $('#table').bootstrapTable({
+            method : 'post',
+            contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+            url : 'http://localhost:8080/code/queryFileList',
+            dataType: 'json',
+            dataField: 'rows',
+            pagination : true,
+            pageNumber : 1,
+            pageSize: 2,   //每页的记录行数（*）
+            pageList: [2, 4, 6],
+            paginationPreText: '上一页',
+            paginationNextText: '下一页',
+            sidePagination: "server",
+            queryParamsType: 'limit',
+            queryParams: function (params) {
+                var obj = {};
+                obj['offset'] = params.offset;
+                obj['limit'] = params.limit;
 
+                if($('#searchText').val() !== ""){
+                    let options = $("#sel1 option:selected");　　　　//获取选中项
+                    let day = options.val();　　　　　　　　　　　　　　//获取选中项的值
+                    let value = $('#searchText').val();
+                    obj[day] = value;
+                }
+                console.log(obj);
+                var temp = JSON.stringify(obj);
+                return JSON.parse(temp);
+            },
+            responseHandler: function (res) {
+                console.log(res);
+                return {
+                    "total": res.data.total,
+                    "rows": res.data.rows
+                };
+            },
+            columns : [{
+                field: 'SerialNumber',
+                title: '序号',
+                formatter: function (value, row, index) {
+                    return index+1;
+                }
+            }, {
+                field: 'codeName',
+                title: '代码名称',
+                cellStyle:{
+                    css:{
+                        "overflow": "hidden",
+                        "text-overflow": "ellipsis",
+                        "white-space": "nowrap"
+                    }
+                }
+            }, {
+                field: 'codeLabel',
+                title: '标签'
+            }, {
+                field: 'userName',
+                title: '上传人'
+            }, {
+                field: 'createTime',
+                title: '上传时间'
+            }, {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                valign: 'middle',
+                width: 200,
+                events: {
+                    'click #delete': function (e, value, row, index) {
+                        deleteInfo(row.id);
+                    },
+                    'click #download': function (e, value, row, index) {
+                        downloadInfo(row.id);
+                    }
+                },
+                formatter: function (value, row, index) {
+                    var result = "";
+                    result +=
+                        '<button id="download" class="btn btn-success btn-sm" style="margin-left:10px;">下载</button>' +
+                        '<button id="delete" class="btn btn-danger btn-sm" style="margin-left:10px;">删除</button>';
+                    return result;
+                }
+            }],
+            onLoadSuccess: function () {
+
+            },
+            onLoadError: function () {
+                alert("数据加载失败！");
+            }
+        });
+    }
     function detailFormatter(index, row) {
         var html = []
         $.each(row, function (key, value) {
-            if (key != '0') {
-                html.push('<p><b>' + key + ':</b> ' + value + '</p>')
+            if (key != 'limit' && key != 'page' && key != 'offset') {
+                if(key == 'codeName') {
+                    html.push('<p><b>' + '代码名称' + ':</b> ' + value + '</p>')
+                } else if(key == 'codeLabel') {
+                    html.push('<p><b>' + '代码标签' + ':</b> ' + value + '</p>')
+                } else if(key == 'codeDescription') {
+                    html.push('<p><b>' + '代码简介' + ':</b> ' + value + '</p>')
+                } else if(key == 'userName') {
+                    html.push('<p><b>' + '上传人' + ':</b> ' + value + '</p>')
+                }
             }
         });
         return html.join('')
     }
-    // function deleteInfo(id) {
-    //         $.ajax({
-    //             type: 'post',
-    //             url: 'ashx/DeleteHandler.ashx',
-    //             dataType: 'json',
-    //             data: {
-    //                 id: id
-    //             },
-    //             success: function (data) {
-    //                 if (data == 'Yes') {
-    //                     $('#table').bootstrapTable('refresh');
-    //                 }
-    //                 else {
-    //                     alert('删除失败');
-    //                 }
-    //             }
-    //         })
-    //     }
-</script>
-<script>
-    function addTag(obj) {
-        html = '<div class="input-group tage my-1">' +
-            '<label class="input-group-addon">tag：</label>' +
-            '<input type="text" class="form-control" id="tagInput">' +
-            '<span class="input-group-btn">' +
-            '<button class="btn btn-info btn-sm mx-2" type="button" data-toggle="tooltip" title="删除" id="deltag"><span class="glyphicon glyphicon-minus"></span></button>' +
-            '</span>' +
-            '</div>'
-        obj.insertAdjacentHTML('afterEnd', html)
+    function deleteInfo(id) {
+        if(confirm("确定删除吗")){
+            $.ajax({
+                type: 'post',
+                url: 'http://localhost:8080/code/delete',
+                dataType: 'json',
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    if (data.code == '200') {
+                        $('#table').bootstrapTable('refresh');
+                        alert('删除成功');
+                    }
+                    else {
+                        alert(data.message);
+                    }
+                }
+            })
+        }
     }
-    $(document).on('click', '#deltag', function () {
-        var el = this.parentNode.parentNode;
-        var centerIp = $(this).parent().parent().find('#tagInput').val();
-        el.parentNode.removeChild(el);
-    })
+    function downloadInfo(id) {
+        let $eleForm = $("<form method='post'></form>");
+        let url = "http://localhost:8080/code/download?id="+id;
+        $eleForm.attr("action", url);
+
+        $(document.body).append($eleForm);
+
+        $eleForm.submit();
+    }
+    function downloadReadMe(id) {
+
+    }
 </script>
 
 </html>

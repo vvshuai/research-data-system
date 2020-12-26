@@ -4,12 +4,10 @@ import com.sau.data.dao.UserDOMapper;
 import com.sau.data.entity.UserDO;
 import com.sau.data.exception.SystemException;
 import com.sau.data.service.UserService;
-import com.sau.data.utils.MD5Util;
+import com.sau.data.utils.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.sound.midi.Soundbank;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
@@ -32,7 +30,7 @@ public class UserServiceImpl implements UserService {
             throw new SystemException("111", "请输入正确的学号/教师号");
         }
 
-        if(!MD5Util.getMd5_16(password).equals(userDO.getPassword())) {
+        if(!MD5Utils.getMd5_16(password).equals(userDO.getPassword())) {
             throw new SystemException("222", "密码错误");
         }
 

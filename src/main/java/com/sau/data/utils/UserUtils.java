@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
  * @Date: Created in 13:21 2020/12/20
  * @Modified By:
  */
-public class UserUtil {
+public class UserUtils {
 
     public static ServletRequestAttributes getRequestAttributes() {
         RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
