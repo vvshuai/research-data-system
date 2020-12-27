@@ -47,6 +47,9 @@
                 <li>
                     <a class="nav-link" href="system-other.html">其他文档</a>
                 </li>
+                <li id="teacher" class="nav-item">
+                    <a class="nav-link" href="system-teacher.html">教师界面</a>
+                </li>
             </ul>
             <span style="color: white" id="userName"></span>
             <ul class="navbar-nav px-3">
@@ -285,15 +288,12 @@
     }
     function downloadInfo(id) {
         let $eleForm = $("<form method='post'></form>");
-        let url = "http://localhost:8080/code/download?id="+id;
+        let url = "http://localhost:8080/code/download?id=" + id;
         $eleForm.attr("action", url);
 
         $(document.body).append($eleForm);
 
         $eleForm.submit();
-    }
-    function downloadReadMe(id) {
-
     }
 </script>
 

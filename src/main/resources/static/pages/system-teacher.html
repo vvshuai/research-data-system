@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>研究室资料管理系统</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-table.min.css">
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap-table.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/teacher.js"></script>
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#" style="font-size:large;">研究室资料管理系统</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="system.html">主页</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="system-code.html">代码数据</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="system-paper.html">论文讲解</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="system-study.html">学习进程</a>
+            </li>
+            <li>
+                <a class="nav-link" href="system-other.html">其他文档</a>
+            </li>
+            <li id="teacher" class="nav-item active">
+                <a class="nav-link" href="system-teacher.html">教师界面</a>
+            </li>
+        </ul>
+        <span style="color: white" id="userName"></span>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:logout()">退出登录</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<br>
+<div class="row">
+    <div class="col-2 offset-md-1">
+        <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action active" id="list-students-list" data-toggle="list"
+               href="#list-students" role="tab" aria-controls="students">导入学生文件</a>
+            <a class="list-group-item list-group-item-action" id="list-tag-list" data-toggle="list"
+               href="#list-tag" role="tab" aria-controls="tag">标签</a>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="list-students" role="tabpanel"
+                 aria-labelledby="list-latest-list">
+                <div class="row">
+                    <div class="col-3">
+                        <h3 class="mb-3">导入学生文件</h3>
+                        <div class="form-group">
+                            <h4>学生文件</h4>
+                            <label for="students-file">选择文件</label>
+                            <input type="file" class="form-control-file" id="students-file">
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary" onclick="students_submit()">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="list-tag" role="tabpanel" aria-labelledby="list-tag-list">
+                <h3 class="mb-3">标签</h3>
+                <div class="row">
+                    <div class="col-9">
+                        <h4>标签名称</h4>
+                        <fieldset>
+                            <input class="form-control" style="width: 550.95px;" id="tag-name">
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="my-3">
+                    <button type="submit" class="btn btn-primary" onclick="tag_submit()">提交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

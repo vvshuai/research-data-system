@@ -5,6 +5,7 @@ import com.sau.data.dao.CodeDOMapper;
 import com.sau.data.dao.TagDOMapper;
 import com.sau.data.entity.CodeDO;
 import com.sau.data.entity.TagDO;
+import com.sau.data.entity.UserDO;
 import com.sau.data.exception.SystemException;
 import com.sau.data.form.CodeForm;
 import com.sau.data.service.CodeService;
@@ -166,5 +167,30 @@ public class CodeServiceImpl implements CodeService {
             ansList.add(codeForm1);
         }
         return ansList;
+    }
+
+    @Override
+    public boolean deleteFile(Integer id) {
+        CodeDO codeDO = codeDOMapper.selectByPrimaryKey(id);
+        if(codeDO == null) {
+            throw new SystemException("-1", "文件不存在");
+        }
+        UserDO userDO = UserUtils.getUserDO();
+        if(!userDO.getUserName().equals(codeDO.getUserName())) {
+            throw new SystemException("-1", "只能删除自己上传的文件");
+        }
+        File file1 = new File(codeDO.getCodeFile());
+        File file2 = new File(codeDO.getCodeReadme());
+        boolean result1 = file1.delete();
+        boolean result2 = file2.delete();
+
+        int i = codeDOMapper.deleteByPrimaryKey(id);
+
+        return result1 && result2 && (i > 0);
+    }
+
+    @Override
+    public CodeDO getCodeDO(Integer id) {
+        return codeDOMapper.selectByPrimaryKey(id);
     }
 }

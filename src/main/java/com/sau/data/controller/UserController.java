@@ -2,10 +2,12 @@ package com.sau.data.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sau.data.entity.UserDO;
+import com.sau.data.exception.SystemException;
 import com.sau.data.response.CommonReturnType;
 import com.sau.data.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -57,4 +59,19 @@ public class UserController {
         }
     }
 
+    @PostMapping("/addTag")
+    public CommonReturnType addTag(@RequestParam("tagName") String tagName) {
+
+        boolean result = userService.addTag(tagName);
+        if(result == false) {
+            throw new SystemException("-1", "添加成功");
+        }
+        return CommonReturnType.success(null);
+    }
+
+    @PostMapping("/uploadUsers")
+    public CommonReturnType uploadUsers(@RequestParam("file") MultipartFile file) {
+
+        return CommonReturnType.success(null);
+    }
 }

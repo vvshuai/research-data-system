@@ -16,4 +16,5 @@ public interface UserService {
     UserDO selectByNumber(Long loginNumber, String password) throws NoSuchAlgorithmException;
 
 
+    boolean addTag(String tagName);
 }

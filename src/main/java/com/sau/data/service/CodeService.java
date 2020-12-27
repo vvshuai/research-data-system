@@ -1,5 +1,6 @@
 package com.sau.data.service;
 
+import com.sau.data.entity.CodeDO;
 import com.sau.data.entity.TagDO;
 import com.sau.data.form.CodeForm;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,4 +30,8 @@ public interface CodeService {
     List<CodeForm> queryCodeList(CodeForm codeForm);
 
     List<CodeForm> queryCacheCodeList(CodeForm codeForm);
+
+    boolean deleteFile(Integer id);
+
+    CodeDO getCodeDO(Integer id);
 }

@@ -1,6 +1,8 @@
 package com.sau.data.service.impl;
 
+import com.sau.data.dao.TagDOMapper;
 import com.sau.data.dao.UserDOMapper;
+import com.sau.data.entity.TagDO;
 import com.sau.data.entity.UserDO;
 import com.sau.data.exception.SystemException;
 import com.sau.data.service.UserService;
@@ -22,6 +24,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserDOMapper userDOMapper;
 
+    @Autowired
+    TagDOMapper tagDOMapper;
+
     @Override
     public UserDO selectByNumber(Long loginNumber, String password) throws NoSuchAlgorithmException {
         UserDO userDO = userDOMapper.selectByNumber(loginNumber);
@@ -35,5 +40,16 @@ public class UserServiceImpl implements UserService {
         }
 
         return userDO;
+    }
+
+    @Override
+    public boolean addTag(String tagName) {
+        TagDO tagDO = new TagDO();
+        tagDO.setTagName(tagName);
+        int i = tagDOMapper.insertSelective(tagDO);
+        if(i <= 0) {
+            throw new SystemException("-1", "插入失败");
+        }
+        return true;
     }
 }
